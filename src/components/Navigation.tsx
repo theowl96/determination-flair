@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Star, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,12 +17,12 @@ const Navigation = () => {
   }, []);
 
   const navigationLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Academics', href: '#academics' },
-    { name: 'Admissions', href: '#admissions' },
-    { name: 'Resources', href: '#resources' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Academics', href: '/academics' },
+    { name: 'Admissions', href: '/admissions' },
+    { name: 'Resources', href: '/resources' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -76,9 +77,9 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {navigationLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className={`font-medium transition-all duration-300 hover:scale-105 relative group ${
                     isScrolled 
                       ? 'text-foreground hover:text-primary' 
@@ -87,15 +88,17 @@ const Navigation = () => {
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               ))}
             </div>
 
             {/* CTA Button & Mobile Menu */}
             <div className="flex items-center gap-4">
-              <Button className="hidden sm:inline-flex btn-hero">
-                Apply Now
-              </Button>
+              <Link to="/admissions">
+                <Button className="hidden sm:inline-flex btn-hero">
+                  Apply Now
+                </Button>
+              </Link>
               
               {/* Mobile Menu Button */}
               <button
@@ -128,9 +131,9 @@ const Navigation = () => {
           <div className="flex-1 pt-24 px-6">
             <nav className="space-y-6">
               {navigationLinks.map((link, index) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block text-2xl font-semibold text-foreground hover:text-primary transition-colors duration-300"
                   style={{ 
@@ -140,17 +143,21 @@ const Navigation = () => {
                   }}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </nav>
             
             <div className="mt-12 space-y-4">
-              <Button className="btn-hero w-full" size="lg">
-                Apply for Admission
-              </Button>
-              <Button variant="outline" className="btn-secondary w-full" size="lg">
-                Schedule Visit
-              </Button>
+              <Link to="/admissions">
+                <Button className="btn-hero w-full" size="lg">
+                  Apply for Admission
+                </Button>
+              </Link>
+              <Link to="/contact">
+                <Button variant="outline" className="btn-secondary w-full" size="lg">
+                  Schedule Visit
+                </Button>
+              </Link>
             </div>
           </div>
           
