@@ -23,6 +23,7 @@ const Navigation = () => {
     { name: 'Admissions', href: '/admissions' },
     { name: 'Resources', href: '/resources' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Admin', href: '/admin' },
   ];
 
   return (
