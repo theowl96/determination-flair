@@ -19,6 +19,7 @@ const Navigation = () => {
   const navigationLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
+    { name: 'Staff', href: '/staff' },
     { name: 'Academics', href: '/academics' },
     { name: 'Admissions', href: '/admissions' },
     { name: 'Resources', href: '/resources' },
