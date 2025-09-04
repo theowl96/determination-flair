@@ -1,7 +1,7 @@
 import Navigation from '@/components/Navigation';
 import FeaturesSection from '@/components/FeaturesSection';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, MapPin, Users, Calendar, Trophy, Camera, Clock, Award } from 'lucide-react';
+import { ArrowLeft, MapPin, Users, Calendar, Trophy, Camera, Clock, Award, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroCampus from '@/assets/hero-campus.jpg';
 import galleryClassroom from '@/assets/gallery-classroom.jpg';
@@ -10,6 +10,12 @@ import galleryArtsPerformance from '@/assets/gallery-arts-performance.jpg';
 import gallerySportsField from '@/assets/gallery-sports-field.jpg';
 import galleryLibrary from '@/assets/gallery-library.jpg';
 import galleryGraduation from '@/assets/gallery-graduation.jpg';
+import staffPrincipal from '@/assets/staff-principal.jpg';
+import staffTeacher1 from '@/assets/staff-teacher1.jpg';
+import staffTeacher2 from '@/assets/staff-teacher2.jpg';
+import staffLibrarian from '@/assets/staff-librarian.jpg';
+import staffCoach from '@/assets/staff-coach.jpg';
+import staffArts from '@/assets/staff-arts.jpg';
 
 const About = () => {
   return (
@@ -371,6 +377,239 @@ const About = () => {
               <Link to="/contact">
                 <Button className="btn-hero">
                   Schedule a Campus Tour
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Staff Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-poppins font-bold text-foreground mb-6">
+                Meet Our <span className="gradient-text">Faculty</span>
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Dedicated professionals committed to nurturing excellence and inspiring our students to achieve their dreams
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Principal */}
+              <div className="school-card text-center group hover-scale animate-fade-in">
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300">
+                    <img 
+                      src={staffPrincipal} 
+                      alt="Dr. Kwame Asante - Principal" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                      <Award className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Dr. Kwame Asante</h3>
+                <p className="text-primary font-medium mb-3">Principal</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  15+ years in educational leadership, PhD in Educational Administration
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Teacher 1 */}
+              <div className="school-card text-center group hover-scale animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-secondary/20 group-hover:ring-secondary/40 transition-all duration-300">
+                    <img 
+                      src={staffTeacher1} 
+                      alt="Mrs. Akosua Mensah - Head of Primary" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                      <Users className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Mrs. Akosua Mensah</h3>
+                <p className="text-secondary-dark font-medium mb-3">Head of Primary</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Master's in Early Childhood Education, 12+ years teaching experience
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Science Teacher */}
+              <div className="school-card text-center group hover-scale animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300">
+                    <img 
+                      src={staffTeacher2} 
+                      alt="Mr. Joseph Osei - Science Department" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                      <Trophy className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Mr. Joseph Osei</h3>
+                <p className="text-primary font-medium mb-3">Science Department Head</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  PhD in Chemistry, Cambridge International examiner
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Librarian */}
+              <div className="school-card text-center group hover-scale animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-secondary/20 group-hover:ring-secondary/40 transition-all duration-300">
+                    <img 
+                      src={staffLibrarian} 
+                      alt="Ms. Ama Boateng - Head Librarian" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                      <Calendar className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Ms. Ama Boateng</h3>
+                <p className="text-secondary-dark font-medium mb-3">Head Librarian</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Master's in Library Science, Digital literacy advocate
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Sports Coach */}
+              <div className="school-card text-center group hover-scale animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300">
+                    <img 
+                      src={staffCoach} 
+                      alt="Coach Michael Addo - Sports Director" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                      <Trophy className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Coach Michael Addo</h3>
+                <p className="text-primary font-medium mb-3">Sports Director</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Former national athlete, Sports Science degree
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-primary/10 hover:bg-primary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Arts Teacher */}
+              <div className="school-card text-center group hover-scale animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                <div className="relative mb-6">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-secondary/20 group-hover:ring-secondary/40 transition-all duration-300">
+                    <img 
+                      src={staffArts} 
+                      alt="Mrs. Grace Appiah - Arts & Culture" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                      <Camera className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-poppins font-bold text-foreground mb-2">Mrs. Grace Appiah</h3>
+                <p className="text-secondary-dark font-medium mb-3">Arts & Culture Director</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Fine Arts degree, Cultural heritage specialist
+                </p>
+                <div className="flex justify-center gap-3">
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-secondary/10 hover:bg-secondary hover:text-white rounded-full flex items-center justify-center transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-16">
+              <p className="text-muted-foreground mb-6">
+                Want to join our dedicated team of educators?
+              </p>
+              <Link to="/contact">
+                <Button className="btn-hero">
+                  View Career Opportunities
                 </Button>
               </Link>
             </div>
