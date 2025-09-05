@@ -5,10 +5,59 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { Calendar, Clock, MapPin, Users, Plus, Edit, Trash2 } from 'lucide-react';
+
+const eventSchema = z.object({
+  title: z.string().min(3, 'Event title must be at least 3 characters'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  category: z.string().min(1, 'Please select a category'),
+  date: z.string().min(1, 'Event date is required'),
+  time: z.string().min(1, 'Event time is required'),
+  location: z.string().min(3, 'Location must be at least 3 characters'),
+  expectedAttendees: z.string().min(1, 'Expected attendees is required'),
+  organizer: z.string().min(2, 'Organizer name is required'),
+  contactEmail: z.string().email('Invalid email address'),
+  contactPhone: z.string().min(10, 'Contact phone is required'),
+  requirements: z.string().optional(),
+  budget: z.string().optional(),
+});
+
+type EventForm = z.infer<typeof eventSchema>;
 
 const EventsManager = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showCreateEventDialog, setShowCreateEventDialog] = useState(false);
+
+  const form = useForm<EventForm>({
+    resolver: zodResolver(eventSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      category: '',
+      date: '',
+      time: '',
+      location: '',
+      expectedAttendees: '',
+      organizer: '',
+      contactEmail: '',
+      contactPhone: '',
+      requirements: '',
+      budget: '',
+    },
+  });
+
+  const onSubmit = (data: EventForm) => {
+    console.log('New event created:', data);
+    // Here you would typically send the data to your backend
+    setShowCreateEventDialog(false);
+    form.reset();
+  };
 
   const mockEvents = [
     {
@@ -82,10 +131,210 @@ const EventsManager = () => {
           <h2 className="text-2xl font-bold text-foreground">Events Management</h2>
           <p className="text-muted-foreground">Organize and manage school events</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          Create Event
-        </Button>
+        <Dialog open={showCreateEventDialog} onOpenChange={setShowCreateEventDialog}>
+          <DialogTrigger asChild>
+            <Button className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              Create Event
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Create New Event</DialogTitle>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Event Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter event title" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Academic">Academic</SelectItem>
+                            <SelectItem value="Sports">Sports</SelectItem>
+                            <SelectItem value="Cultural">Cultural</SelectItem>
+                            <SelectItem value="Social">Social</SelectItem>
+                            <SelectItem value="Community">Community</SelectItem>
+                            <SelectItem value="Fundraising">Fundraising</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Event Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="time"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Event Time</FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Event location" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="expectedAttendees"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Expected Attendees</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="Number of attendees" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Event Description</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Describe the event in detail" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Organizer Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="organizer"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Organizer Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Event organizer" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="contactEmail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="organizer@email.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="contactPhone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Phone</FormLabel>
+                          <FormControl>
+                            <Input placeholder="+233 XX XXX XXXX" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="budget"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Budget (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="GHS 0.00" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="requirements"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Special Requirements (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Any special equipment, setup, or requirements for the event" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex gap-2 pt-4">
+                  <Button type="submit" className="bg-primary hover:bg-primary/90">
+                    Create Event
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setShowCreateEventDialog(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Search */}

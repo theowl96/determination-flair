@@ -5,11 +5,60 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Eye, CheckCircle, XCircle, Clock, Plus } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Search, Eye, CheckCircle, XCircle, Clock, Plus, Upload } from 'lucide-react';
+
+const applicationSchema = z.object({
+  studentName: z.string().min(2, 'Student name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  phone: z.string().min(10, 'Phone number must be at least 10 characters'),
+  parentName: z.string().min(2, 'Parent name must be at least 2 characters'),
+  parentEmail: z.string().email('Invalid parent email address'),
+  parentPhone: z.string().min(10, 'Parent phone number must be at least 10 characters'),
+  class: z.string().min(1, 'Please select a class'),
+  previousSchool: z.string().min(2, 'Previous school name required'),
+  dateOfBirth: z.string().min(1, 'Date of birth is required'),
+  address: z.string().min(10, 'Address must be at least 10 characters'),
+  medicalConditions: z.string().optional(),
+  emergencyContact: z.string().min(10, 'Emergency contact is required'),
+});
+
+type ApplicationForm = z.infer<typeof applicationSchema>;
 
 const AdmissionsManager = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [showNewApplicationDialog, setShowNewApplicationDialog] = useState(false);
+
+  const form = useForm<ApplicationForm>({
+    resolver: zodResolver(applicationSchema),
+    defaultValues: {
+      studentName: '',
+      email: '',
+      phone: '',
+      parentName: '',
+      parentEmail: '',
+      parentPhone: '',
+      class: '',
+      previousSchool: '',
+      dateOfBirth: '',
+      address: '',
+      medicalConditions: '',
+      emergencyContact: '',
+    },
+  });
+
+  const onSubmit = (data: ApplicationForm) => {
+    console.log('New application submitted:', data);
+    // Here you would typically send the data to your backend
+    setShowNewApplicationDialog(false);
+    form.reset();
+  };
 
   const mockApplications = [
     {
@@ -81,10 +130,231 @@ const AdmissionsManager = () => {
           <h2 className="text-2xl font-bold text-foreground">Admissions Management</h2>
           <p className="text-muted-foreground">Review and manage student applications</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          New Application
-        </Button>
+        <Dialog open={showNewApplicationDialog} onOpenChange={setShowNewApplicationDialog}>
+          <DialogTrigger asChild>
+            <Button className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              New Application
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>New Student Application</DialogTitle>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="studentName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student Full Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter student's full name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="student@email.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="+233 XX XXX XXXX" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="dateOfBirth"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Date of Birth</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="class"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Applying for Class</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select class" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Grade 1">Grade 1</SelectItem>
+                            <SelectItem value="Grade 2">Grade 2</SelectItem>
+                            <SelectItem value="Grade 3">Grade 3</SelectItem>
+                            <SelectItem value="Grade 4">Grade 4</SelectItem>
+                            <SelectItem value="Grade 5">Grade 5</SelectItem>
+                            <SelectItem value="Grade 6">Grade 6</SelectItem>
+                            <SelectItem value="Grade 7">Grade 7</SelectItem>
+                            <SelectItem value="Grade 8">Grade 8</SelectItem>
+                            <SelectItem value="Grade 9">Grade 9</SelectItem>
+                            <SelectItem value="Grade 10">Grade 10</SelectItem>
+                            <SelectItem value="Grade 11">Grade 11</SelectItem>
+                            <SelectItem value="Grade 12">Grade 12</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="previousSchool"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Previous School</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Name of previous school" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Parent/Guardian Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="parentName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Parent/Guardian Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter parent's full name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="parentEmail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Parent Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="parent@email.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="parentPhone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Parent Phone</FormLabel>
+                          <FormControl>
+                            <Input placeholder="+233 XX XXX XXXX" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="emergencyContact"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Emergency Contact</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Emergency contact number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Home Address</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Enter complete home address" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="medicalConditions"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Medical Conditions (Optional)</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Any medical conditions or allergies" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h4 className="font-medium mb-2">Required Documents</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">
+                    <div>• Birth Certificate</div>
+                    <div>• Previous School Report</div>
+                    <div>• Medical Records</div>
+                    <div>• Passport Photos (2)</div>
+                  </div>
+                  <Button type="button" variant="outline" className="mt-3">
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Documents
+                  </Button>
+                </div>
+
+                <div className="flex gap-2 pt-4">
+                  <Button type="submit" className="bg-primary hover:bg-primary/90">
+                    Submit Application
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setShowNewApplicationDialog(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Filters */}
